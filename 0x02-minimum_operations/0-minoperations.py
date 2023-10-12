@@ -9,8 +9,8 @@ def minOperations(n):
     if n < 2:
         return 0
     while (index < n + 1):
-         while n % index == 0:
-             result += index
-             n /= index
-         index += 1
+        while n % index == 0:
+            result += index
+            n /= index
+        index += 1
     return result
