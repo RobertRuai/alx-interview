@@ -8,7 +8,7 @@ def validUTF8(data):
     represents a valid UTF-8 encoding
     """
     bytes_to_process = 0
-    
+
     for byte in data:
         if bytes_to_process > 0:
             if (byte >> 6) != 0b10:
@@ -25,5 +25,5 @@ def validUTF8(data):
                 bytes_to_process = 3
             else:
                 return False
-    
+
     return bytes_to_process == 0
