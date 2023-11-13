@@ -17,4 +17,4 @@ const logChars = (chars, a) => {
     console.log(JSON.parse(body).name);
     logChars(chars, a + 1);
   });
-}
+};
