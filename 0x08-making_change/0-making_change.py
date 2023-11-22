@@ -2,22 +2,21 @@
 """determine the fewest number of coins
 needed to meet a given amount
 """
-import sys
 
 
 def makeChange(coins, total):
     """Returns fewest number of coins needed to meet total"""
     if total <= 0:
         return 0
-    res = sys.maxsize
+    tmp = 0
+    coins.sort(reverse=True)
 
-    for i in range(len(coins)):
-        if (coins[i] <= total):
-            sub_res = makeChange(coins, total-coins[i])
+    for coin in coins:
+        if total % coin <= total:
+            tmp += total // coin
+            total = total % coin
 
-            if (sub_res != sys.maxsize and sub_res + 1 < res):
-                res = sub_res + 1
-    if res == -sys.maxsize:
-        return -1
+    if total == 0:
+        return tmp
     else:
-        return res
+        return -1
