@@ -20,10 +20,12 @@ def isWinner(x, nums):
         return primes
 
     def can_win(n):
+        """checks who's moat likely to win"""
         primes = sieve_of_eratosthenes(n)
         memo = {}
 
         def can_win_recursive(remaining):
+             """checks wins recursively"""
             if remaining == 0:
                 return False
 
