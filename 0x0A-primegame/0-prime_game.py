@@ -3,59 +3,40 @@
 
 
 def isWinner(x, nums):
+    """x - rounds
+    nums - numbers list
+    """
     if x <= 0 or nums is None:
         return None
-
-    def sieve_of_eratosthenes(limit):
-        """finds all primes upto """
-        primes = []
-        is_prime = [True] * (limit + 1)
-        is_prime[0] = is_prime[1] = False
-
-        for number, prime in enumerate(is_prime):
-            if prime:
-                primes.append(number)
-                for multiple in range(number * number, limit + 1, number):
-                    is_prime[multiple] = False
-        return primes
-
-    def can_win(n):
-        """checks who's moat likely to win"""
-        primes = sieve_of_eratosthenes(n)
-        memo = {}
-
-        def can_win_recursive(remaining):
-             """checks wins recursively"""
-            if remaining == 0:
-                return False
-
-            if remaining in memo:
-                return memo[remaining]
-
-            for prime in primes:
-                if prime > remaining:
-                    break
-                if not can_win_recursive(remaining - prime):
-                    memo[remaining] = True
-                    return True
-
-            memo[remaining] = False
-            return False
-
-        return can_win_recursive(n)
-
-    maria = 0
-    ben = 0
-
-    for n in nums:
-        if can_win(n):
-            ben += 1
-        else:
-            maria += 1
-
-    if maria > ben:
-        return "Maria"
-    elif ben > maria:
-        return "Ben"
-    else:
+    if x != len(nums):
         return None
+
+    ben_wins = 0
+    maria_wins = 0
+
+    prime = [1 for x in range(sorted(nums)[-1] + 1)]
+    prime[0], prime[1] = 0, 0
+    for i in range(2, len(prime)):
+        rm_multiples(prime, i)
+
+    for i in nums:
+        if sum(prime[0:i + 1]) % 2 == 0:
+            ben_wins += 1
+        else:
+            maria_wins += 1
+    if ben_wins > maria_wins:
+        return "Ben"
+    if maria_wins > ben_wins:
+        return "Maria"
+    return None
+
+
+def rm_multiples(ls, x):
+    """removes multiple
+    of primes
+    """
+    for i in range(2, len(ls)):
+        try:
+            ls[i * x] = 0
+        except (ValueError, IndexError):
+            break
